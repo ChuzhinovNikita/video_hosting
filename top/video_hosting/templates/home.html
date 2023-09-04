@@ -1,0 +1,53 @@
+{% extends 'base_layout.html' %}
+{% load static from static %}
+
+{% block content %}
+<section>
+    <!--    ==================      посты   ===================   -->
+
+
+    <div class="container">
+        <div class="columns is-centered is-multiline">
+            {% for post in posts %}
+            <div class="column is-4">
+                <div class="card has-text-centered">
+                    <div class="card-content">
+                        <a href="{% url 'video_hosting:video' post.pk %}">
+                            <div class="media">
+                                <div class="media-content">
+                                    <div class="container pb-4 mb-3">
+                                        <img src="{{post.preview.url}}" alt="" class="image is-centered post-imag">
+                                    </div>
+                                    <div class="title has-text-black is-3">
+                                        {{ post.name }}
+                                    </div>
+                                    <div class="columns">
+                                        <div class="column">
+                                            <div class="subtitle has-text-grey-dark has-text-weight-semibold is-6">
+                                                {% if post.author == user %}
+                                                by you
+                                                {% else %}
+                                                by {{ post.author }}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="column">
+                                            <div class="subtitle has-text-grey-dark has-text-weight-semibold is-6">
+                                                {{ post.date }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <!--    ==================================================   -->
+</section>
+{% endblock %}

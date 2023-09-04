@@ -1,0 +1,113 @@
+{% extends 'base_layout.html' %}
+{% load static from static %}
+
+{% block content %}
+<section>
+    <div class="container is-centered">
+        <div class="columns is-centered">
+            <div class="column is-three-quarters">
+                <div class="box">
+                    <figure class="has-text-centered">
+                        <video src="{{post.video.url}}" style="width: 1000px; height: 650px; border-radius: 20px"
+                               poster="{{post.preview.url}}" controls></video>
+                    </figure>
+                    <div class="title has-text-grey-dark is-3 has-text-centered mt-3">
+                        {{ post.name }}
+                    </div>
+                    <div class="columns">
+
+                        <!--                ========== АВТОР==================-->
+
+                        <div class="column is-two-fifths">
+                            <div class="columns is-centered">
+                                <div class="column">
+                                    <span class="subtitle has-text-grey-dark has-text-weight-semibold is-5 m-6">
+                                        {% if post.author == user %}
+                                        by you
+                                        {% else %}
+                                        {{ post.author }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="column">
+                                    <span class="ml-3">
+                                        <button class="button is-info is-light is-medium">Подписаться</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--                ======================================          -->
+
+
+                        <!--                ============= ЛАЙКИ =========================-->
+                        <div class="column"></div>
+                        <!--                =======================================          -->
+
+
+                    </div>
+                </div>
+
+                <!--            ============ОПИСАНИЕ==================  -->
+                <div class="box">
+                    <div class="container">
+                        <div class="subtitle has-text-grey-dark has-text-weight-semibold is-6 is-left">
+                            {{ post.date }}
+                        </div>
+                        <div class="subtitle has-text-grey-dark has-text-weight-semibold is-6 has-text-centered">
+                            {{post.description}}
+                        </div>
+                    </div>
+                </div>
+                <!--            =================================       -->
+            </div>
+
+            <!--            =================================   РЕКОМЕНДАЦИИ ===========    -->
+
+            <div class="column">
+                <div class="box">
+                    {% for post_r in posts %}
+                    <div class="card mt-3">
+                        <div class="cart-content">
+                            <a href="{% url 'video_hosting:video' post_r.pk %}">
+                                <div class="media">
+                                    <div class="media-content">
+                                        <div class="columns is-centered">
+                                            <div class="column">
+                                                <div class="container">
+                                                    <img src="{{post_r.preview.url}}" alt=""
+                                                         class="image is-centered post-imag">
+                                                </div>
+                                            </div>
+                                            <div class="column">
+                                                <div class="title has-text-black is-4 mt-2">
+                                                    {{ post_r.name }}
+                                                </div>
+                                                <div class="has-text-grey-dark has-text-weight-semibold is-6">
+                                                    {% if post_r.author == user %}
+                                                    by you
+                                                    {% else %}
+                                                    {{ post_r.author }}
+                                                    {% endif %}
+                                                </div>
+                                                <div class="has-text-grey-dark has-text-weight-semibold is-6">
+                                                    {{ post_r.date }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!--            =============================================================-->
+
+        </div>
+
+
+    </div>
+</section>
+{% endblock %}
