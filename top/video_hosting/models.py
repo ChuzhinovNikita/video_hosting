@@ -2,6 +2,18 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class HostingСhannel(models.Model):
+    name = models.CharField(max_length=255)
+    image = models.ImageField(default='user.png', blank=True)
+    slug = models.SlugField(unique=True)
+    description = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
 class Video(models.Model):
     preview = models.ImageField(default='default-video-image.png', blank=True)
     video = models.FileField(default='default-video.MP4', blank=True)
@@ -9,7 +21,7 @@ class Video(models.Model):
     slug = models.SlugField(unique=True)
     description = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    channel = models.ForeignKey(HostingСhannel, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name

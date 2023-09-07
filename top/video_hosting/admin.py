@@ -7,3 +7,4 @@ class SlugAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Video, SlugAdmin)
+admin.site.register(HostingСhannel, SlugAdmin)

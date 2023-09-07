@@ -1,0 +1,16 @@
+.head{
+    width: 550px;
+    height: 190px;
+}
+.channel-img{
+    width: 70%;
+}
+
+.form-box{
+    margin: 0 auto;
+    width: 60%;
+}
+
+.form-box button{
+    width: 30%;
+}

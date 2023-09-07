@@ -23,12 +23,9 @@
                                     </div>
                                     <div class="columns">
                                         <div class="column">
-                                            <div class="subtitle has-text-grey-dark has-text-weight-semibold is-6">
-                                                {% if post.author == user %}
-                                                by you
-                                                {% else %}
-                                                by {{ post.author }}
-                                                {% endif %}
+                                            <div
+                                               class="subtitle has-text-grey-dark has-text-weight-semibold is-6">
+                                                by {{ post.channel }}
                                             </div>
                                         </div>
                                         <div class="column">

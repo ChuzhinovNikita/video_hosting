@@ -19,18 +19,15 @@
                         <!--                ========== АВТОР==================-->
 
                         <div class="column is-two-fifths">
-                            <div class="columns is-centered">
+                            <div class="columns is-centered is-vcentered">
                                 <div class="column">
-                                    <span class="subtitle has-text-grey-dark has-text-weight-semibold is-5 m-6">
-                                        {% if post.author == user %}
-                                        by you
-                                        {% else %}
-                                        {{ post.author }}
-                                        {% endif %}
-                                    </span>
+                                    <a href="{% url 'video_hosting:host_channel' post.channel.pk %}"
+                                       class="subtitle has-text-grey-dark has-text-weight-semibold is-5">
+                                        {{ post.channel }}
+                                    </a>
                                 </div>
                                 <div class="column">
-                                    <span class="ml-3">
+                                    <span>
                                         <button class="button is-info is-light is-medium">Подписаться</button>
                                     </span>
                                 </div>
@@ -82,12 +79,8 @@
                                                 <div class="title has-text-black is-4 mt-2">
                                                     {{ post_r.name }}
                                                 </div>
-                                                <div class="has-text-grey-dark has-text-weight-semibold is-6">
-                                                    {% if post_r.author == user %}
-                                                    by you
-                                                    {% else %}
-                                                    {{ post_r.author }}
-                                                    {% endif %}
+                                                <div class="has-text-weight-semibold is-6 has-background-danger-dark has-text-danger-light has-text-centered">
+                                                    {{ post_r.channel }}
                                                 </div>
                                                 <div class="has-text-grey-dark has-text-weight-semibold is-6">
                                                     {{ post_r.date }}
