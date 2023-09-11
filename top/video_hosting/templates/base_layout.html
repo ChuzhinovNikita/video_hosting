@@ -31,7 +31,7 @@
 
         <div class="navbar-end">
 
-<!--            ==============  НЕ ДОДЕЛАН ПОИСК !!!!!!!!!! ===========-->
+            <!--            ==============  НЕ ДОДЕЛАН ПОИСК !!!!!!!!!! ===========-->
             <span class="navbar-item">
                 <form method="get" class="pt-3">
                     <div class="field has-addons">
@@ -46,7 +46,7 @@
                     </div>
                 </form>
             </span>
-<!--            ===================                  -->
+            <!--            ===================                  -->
 
             <div class="navbar-item">
                 {% if user.is_authenticated %}
@@ -58,11 +58,18 @@
                         <a class="navbar-item" href="{% url 'video_hosting:create_channel' %}">
                             Создать канал
                         </a>
+                        <a class="navbar-item" href="{% url 'users:edit_profile' %}">
+                            Редактировать профиль
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a class="navbar-item" href="{% url 'users:log_out' %}">
+                            Выйти
+                        </a>
                     </div>
                 </div>
                 {% else %}
                 <div class="buttons">
-                    <a class="button is-light">
+                    <a href="{% url 'users:log_in' %}" class="button is-light">
                         Log in
                     </a>
                 </div>
@@ -76,6 +83,7 @@
     <div class="columns">
         <div class="column is-one-fifth">
             <div class="box has-text-centered">
+                {% if user.is_authenticated %}
                 <ul>
                     <li>
                         <a href="{% url 'video_hosting:subscriptions' %}">
@@ -83,6 +91,7 @@
                         </a>
                     </li>
                 </ul>
+                {% endif %}
             </div>
         </div>
         <div class="column">
