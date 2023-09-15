@@ -8,4 +8,12 @@ urlpatterns = [
     path('create_channel/', views.create_channel, name='create_channel'),
     path('subscriptions/', views.subscriptions, name='subscriptions'),
     path('create_video/', views.create_video, name='create_video'),
+    path('saved_channel/<int:pk>', views.saved_channel, name='saved_channel'),
+    path('channel_all/', views.channel_all, name='channel_all'),
+    path('like/<int:pk>', views.like, name='like'),
+    path('dislike/<int:pk>', views.dislike, name='dislike'),
+    path('saved_video/<int:pk>', views.saved_video, name='saved_video'),
+    path('library/', views.library, name='library'),
+    path('edit_video/<int:pk>', views.edit_video, name='edit_video'),
+    path('delete/', views.delete, name='delete'),
 ]

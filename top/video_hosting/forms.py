@@ -22,3 +22,13 @@ class CreateVideoForm(BulmaMixin, forms.ModelForm):
     class Meta:
         model = HostingСhannel
         fields = ['preview', 'video', 'name', 'description']
+
+
+class EditVideoForm(BulmaMixin, forms.ModelForm):
+    preview = forms.ImageField(label='Превью', )
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Название'}))
+    description = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Описание'}))
+
+    class Meta:
+        model = HostingСhannel
+        fields = ['preview', 'name', 'description']

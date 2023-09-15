@@ -4,22 +4,22 @@
 {% block content %}
 <sections class="section">
     <div class="box">
-        {% for subs in my_subscriptions %}
+        {% for channel in channels %}
         <div class="card mt-3">
             <div class="cart-content">
-                <a href="{% url 'video_hosting:host_channel' subs.pk %}">
+                <a href="{% url 'video_hosting:host_channel' channel.pk %}">
                     <div class="media">
                         <div class="media-content">
                             <div class="columns is-vcentered">
                                 <div class="column">
                                     <figure class="image is-128x128 ml-6">
-                                        <img src="{{subs.image.url}}" alt=""
+                                        <img src="{{channel.image.url}}" alt=""
                                              class="image post-imag">
                                     </figure>
                                 </div>
                                 <div class="column">
                                     <div class="title has-text-left has-text-black is-4">
-                                        {{ subs.name }}
+                                        {{ channel.name }}
                                     </div>
                                 </div>
                             </div>

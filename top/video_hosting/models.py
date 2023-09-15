@@ -9,6 +9,7 @@ class HostingСhannel(models.Model):
     description = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    saved_channel = models.ManyToManyField(User, related_name='saved_channel')
 
     def __str__(self):
         return self.name
@@ -22,6 +23,17 @@ class Video(models.Model):
     description = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     channel = models.ForeignKey(HostingСhannel, on_delete=models.CASCADE, null=True)
+    likes = models.ManyToManyField(User, related_name='likes')
+    dislikes = models.ManyToManyField(User, related_name='dislikes')
+    saved_video = models.ManyToManyField(User, related_name='saved_video')
 
     def __str__(self):
         return self.name
+
+    def likes_counter(self):
+        return self.likes.count()
+
+
+class History(models.Model):
+    video = models.ForeignKey(Video, on_delete=models.CASCADE, null=True)
+    date = models.DateTimeField(auto_now_add=True)

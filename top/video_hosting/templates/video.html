@@ -2,42 +2,148 @@
 {% load static from static %}
 
 {% block content %}
-<section>
+<section class="section">
     <div class="container is-centered">
         <div class="columns is-centered">
             <div class="column is-three-quarters">
                 <div class="box">
                     <figure class="has-text-centered">
                         <video src="{{post.video.url}}" style="width: 1000px; height: 650px; border-radius: 20px"
-                               poster="{{post.preview.url}}" controls></video>
+                               poster="{{post.preview.url}}" class="video_pk" controls></video>
                     </figure>
                     <div class="title has-text-grey-dark is-3 has-text-centered mt-3">
                         {{ post.name }}
                     </div>
-                    <div class="columns">
+                    <div class="columns is-vcentered">
 
                         <!--                ========== АВТОР==================-->
 
                         <div class="column is-two-fifths">
-                            <div class="columns is-centered is-vcentered">
+                            <div class="columns is-vcentered">
                                 <div class="column">
                                     <a href="{% url 'video_hosting:host_channel' post.channel.pk %}"
                                        class="subtitle has-text-grey-dark has-text-weight-semibold is-5">
                                         {{ post.channel }}
                                     </a>
                                 </div>
+                                {% if request.user != post.channel.author %}
                                 <div class="column">
                                     <span>
-                                        <button class="button is-info is-light is-medium">Подписаться</button>
+                                        <form method="post"
+                                              action="{% url 'video_hosting:saved_channel' post.channel.pk %}">
+                                            {% csrf_token %}
+                                            {% if request.user not in post.channel.saved_channel.all %}
+                                            <button class="button is-info is-light is-medium" type="submit">
+                                                Подписаться
+                                            </button>
+                                            {% else %}
+                                            <button class="button is-danger is-light is-medium" type="submit">
+                                                Отписаться
+                                            </button>
+                                            {% endif %}
+                                        </form>
                                     </span>
                                 </div>
+                                {% else %}
+                                <div class="dropdown is-hoverable mr-5">
+                                    <div class="dropdown-trigger">
+                                        <div class="button subtitle has-text-grey-dark is-5 has-text-centered"
+                                             aria-haspopup="true"
+                                             aria-controls="dropdown-menu4">
+                                            <div class="columns is-vcentered">
+                                                <div class="column is-four-fifths">
+                                                    <span>Управление</span>
+                                                </div>
+                                                <div class="column">
+                                                <span class="icon is-small">
+                                                    <ion-icon name="chevron-down-outline"></ion-icon>
+                                                </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-menu" role="menu">
+                                        <div class="dropdown-content">
+                                            <a class="navbar-item"
+                                               href="{% url 'video_hosting:edit_video' post.pk %}">
+                                                 Изменить
+                                            </a>
+                                            <a class="navbar-item"
+                                               href="{% url 'video_hosting:delete' %}?pk={{post.pk}}">
+                                                 Удалить
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                         <!--                ======================================          -->
 
 
                         <!--                ============= ЛАЙКИ =========================-->
-                        <div class="column"></div>
+                        <div class="column has-text-right">
+                            <div class="columns is-vcentered">
+                                <div class="column has-text-right">
+                                    <form method="post" action="{% url 'video_hosting:like' post.pk %}">
+                                        {% csrf_token %}
+                                        <button class="button is-light is-large {% if user in post.likes.all %} is-success {% endif %}"
+                                                type="submit">
+                                            <ion-icon name="heart-outline"></ion-icon>
+                                            <span class="subtitle has-text-grey-dark has-text-weight-semibold is-5 ml-3">
+                                                {{ post.likes_counter }}
+                                            </span>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="column has-text-left">
+                                    <form method="post" action="{% url 'video_hosting:dislike' post.pk %}">
+                                        {% csrf_token %}
+                                        <button class="button is-light is-large {% if user in post.dislikes.all %} is-danger {% endif %}"
+                                                type="submit">
+                                            <ion-icon name="heart-dislike-outline"></ion-icon>
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <!--                                ===================== СОХРАНИТЬ ==========   -->
+
+                                <div class="column has-text-right">
+                                    <form method="post" action="{% url 'video_hosting:saved_video' post.pk %}">
+                                        {% csrf_token %}
+                                        <button class="button is-light is-large {% if user in post.saved_video.all %} is-link {% endif %}"
+                                                type="submit">
+                                            <ion-icon name="bookmarks-outline"></ion-icon>
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <!--                                ==========    ОСТАЛЬНОЕ =============== -->
+
+                                <div class="column has-text-right">
+                                    <div class="dropdown is-hoverable mr-5">
+                                        <div class="dropdown-trigger">
+                                            <div class="subtitle has-text-grey-dark is-5 has-text-centered"
+                                                 aria-haspopup="true"
+                                                 aria-controls="dropdown-menu4">
+                                                <span class="is-size-3">
+                                                    <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-menu" role="menu">
+                                            <div class="dropdown-content">
+<!--                                                <a class="navbar-item"-->
+<!--                                                   href="{% url 'video_hosting:create_video' %}?pk_channel={{data.pk}}">-->
+<!--                                                    Загрузить видео-->
+<!--                                                </a>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                         <!--                =======================================          -->
 
 
@@ -76,7 +182,7 @@
                                                 </div>
                                             </div>
                                             <div class="column">
-                                                <div class="title has-text-black is-4 mt-2">
+                                                <div class="title has-text-black is-5 mt-2">
                                                     {{ post_r.name }}
                                                 </div>
                                                 <div class="has-text-weight-semibold is-6 has-background-danger-dark has-text-danger-light has-text-centered">

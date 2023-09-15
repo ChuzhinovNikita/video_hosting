@@ -1,0 +1,38 @@
+{% extends 'base_layout.html' %}
+{% load static from static %}
+
+{% block content %}
+<div class="box">
+    {% for post in posts %}
+    <div class="card mt-3">
+        <div class="cart-content">
+            <a href="{% url 'video_hosting:video' post.pk %}">
+                <div class="media">
+                    <div class="media-content">
+                        <div class="columns is-centered">
+                            <div class="column is-one-quarter">
+                                <div class="container">
+                                    <img src="{{post.preview.url}}" alt=""
+                                         class="image is-centered post-imag ml-6">
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="title has-text-black is-4 mt-2 has-text-centered">
+                                    {{ post.name }}
+                                </div>
+                                <div class="has-text-centered has-text-weight-semibold is-6 has-background-danger-dark has-text-danger-light has-text-centered">
+                                    {{ post.channel }}
+                                </div>
+                                <div class="has-text-grey-dark has-text-weight-semibold is-6 has-text-centered">
+                                    {{ post.date }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

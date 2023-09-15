@@ -2,7 +2,7 @@
 {% load static from static %}
 
 {% block content %}
-<section>
+<section class="section">
     <div class="container is-centered">
 
         <!--        ===========ШАПКА================   -->
@@ -54,11 +54,20 @@
                 </div>
             </div>
             <div class="column has-text-right">
-                {% if user != data.author %}
-                <button class="button is-info is-light is-medium">
-                    Подписаться
-                </button>
-                {%else%}
+                {% if request.user != data.author %}
+                <form method="post" action="{% url 'video_hosting:saved_channel' data.pk %}">
+                    {% csrf_token %}
+                    {% if request.user not in data.saved_channel.all %}
+                    <button class="button is-info is-light is-medium" type="submit">
+                        Подписаться
+                    </button>
+                    {% else %}
+                    <button class="button is-danger is-light is-medium" type="submit">
+                        Отписаться
+                    </button>
+                    {% endif %}
+                </form>
+                {% else %}
                 <div class="dropdown is-hoverable mr-5">
                     <div class="dropdown-trigger">
                         <div class="button subtitle has-text-grey-dark is-5 has-text-centered" aria-haspopup="true"
