@@ -1,7 +1,14 @@
-// let video_pk = document.querySelector('.video_pk')
-// a = video_pk.value
-//
-//
-// video_pk.addEventListener('click', () => {
-//     document.cookie = 'pk=' + a
-// })
+// ============  УДАЛЕНИЕ ВИДЕО =========
+
+function addModal() {
+    let modal = document.querySelector('.mod')
+    modal.classList.add('is-active')
+}
+
+function removeModal() {
+    let modal = document.querySelector('.mod')
+    modal.classList.remove('is-active')
+}
+
+// ========================================================
+

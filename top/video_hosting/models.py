@@ -37,3 +37,15 @@ class Video(models.Model):
 class History(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE, null=True)
     date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.video.name
+
+
+class ViewingQueue(models.Model):
+    video = models.ForeignKey(Video, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.video.name

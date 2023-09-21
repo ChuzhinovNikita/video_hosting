@@ -4,12 +4,30 @@
 {% block content %}
 <section class="section">
     <div class="container is-centered">
+
+
+        <div class="modal mod">
+            <div class="modal-background" onclick="addModal()"></div>
+            <div class="modal-content">
+                <div class="box has-text-centered">
+                    <div class="title">
+                        Подтвердите удаление
+                    </div>
+                    <a href="{% url 'video_hosting:video' post.pk %}?action=delete"
+                       class="button is-danger">Подтвердить</a>
+                    <button class="button" onclick="removeModal()">Отмена</button>
+                </div>
+            </div>
+            <div class="modal-close is-large" onclick="removeModal()"></div>
+        </div>
+
+
         <div class="columns is-centered">
             <div class="column is-three-quarters">
                 <div class="box">
                     <figure class="has-text-centered">
                         <video src="{{post.video.url}}" style="width: 1000px; height: 650px; border-radius: 20px"
-                               poster="{{post.preview.url}}" class="video_pk" controls></video>
+                               poster="{{post.preview.url}}" controls></video>
                     </figure>
                     <div class="title has-text-grey-dark is-3 has-text-centered mt-3">
                         {{ post.name }}
@@ -66,11 +84,11 @@
                                         <div class="dropdown-content">
                                             <a class="navbar-item"
                                                href="{% url 'video_hosting:edit_video' post.pk %}">
-                                                 Изменить
+                                                Изменить
                                             </a>
-                                            <a class="navbar-item"
-                                               href="{% url 'video_hosting:delete' %}?pk={{post.pk}}">
-                                                 Удалить
+                                            <a onclick="addModal()"
+                                               class="navbar-item has-text-danger">
+                                                Удалить
                                             </a>
                                         </div>
                                     </div>
@@ -133,15 +151,14 @@
                                         </div>
                                         <div class="dropdown-menu" role="menu">
                                             <div class="dropdown-content">
-<!--                                                <a class="navbar-item"-->
-<!--                                                   href="{% url 'video_hosting:create_video' %}?pk_channel={{data.pk}}">-->
-<!--                                                    Загрузить видео-->
-<!--                                                </a>-->
+                                                <a href="{% url 'video_hosting:video' post.pk %}?action=viewing_queue"
+                                                   class="navbar-item button is-ghost has-text-grey-dark">
+                                                    Добавить в очередь просмотра
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <!--                =======================================          -->
@@ -154,7 +171,7 @@
                 <div class="box">
                     <div class="container">
                         <div class="subtitle has-text-grey-dark has-text-weight-semibold is-6 is-left">
-                            {{ post.date }}
+                            Опубликованно {{ post.date|timesince }} назад
                         </div>
                         <div class="subtitle has-text-grey-dark has-text-weight-semibold is-6 has-text-centered">
                             {{post.description}}
@@ -168,28 +185,31 @@
 
             <div class="column">
                 <div class="box">
+                    <div class="title is-size-5 has-text-centered">
+                        В очереди на просмотр
+                    </div>
                     {% for post_r in posts %}
                     <div class="card mt-3">
                         <div class="cart-content">
-                            <a href="{% url 'video_hosting:video' post_r.pk %}">
+                            <a href="{% url 'video_hosting:video' post_r.video.pk %}?viewing=True">
                                 <div class="media">
                                     <div class="media-content">
                                         <div class="columns is-centered">
                                             <div class="column">
                                                 <div class="container">
-                                                    <img src="{{post_r.preview.url}}" alt=""
+                                                    <img src="{{post_r.video.preview.url}}" alt=""
                                                          class="image is-centered post-imag">
                                                 </div>
                                             </div>
                                             <div class="column">
                                                 <div class="title has-text-black is-5 mt-2">
-                                                    {{ post_r.name }}
+                                                    {{ post_r.video.name }}
                                                 </div>
                                                 <div class="has-text-weight-semibold is-6 has-background-danger-dark has-text-danger-light has-text-centered">
-                                                    {{ post_r.channel }}
+                                                    {{ post_r.video.channel }}
                                                 </div>
                                                 <div class="has-text-grey-dark has-text-weight-semibold is-6">
-                                                    {{ post_r.date }}
+                                                    {{ post_r.video.date|timesince }}
                                                 </div>
                                             </div>
                                         </div>

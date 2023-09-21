@@ -14,3 +14,11 @@
 .form-box button{
     width: 30%;
 }
+
+.post_pk{
+    display: none;
+}
+
+.user_icon{
+    margin: 0 auto;
+}

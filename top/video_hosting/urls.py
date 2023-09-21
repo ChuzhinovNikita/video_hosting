@@ -15,5 +15,6 @@ urlpatterns = [
     path('saved_video/<int:pk>', views.saved_video, name='saved_video'),
     path('library/', views.library, name='library'),
     path('edit_video/<int:pk>', views.edit_video, name='edit_video'),
-    path('delete/', views.delete, name='delete'),
+    path('history/', views.history, name='history'),
+    path('viewing_queue/', views.viewing_queue, name='viewing_queue'),
 ]

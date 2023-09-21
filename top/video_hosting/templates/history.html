@@ -3,25 +3,25 @@
 
 {% block content %}
 <div class="box">
-    {% for post in posts %}
+    {% for post in history_user %}
     <div class="card mt-3">
         <div class="cart-content">
-            <a href="{% url 'video_hosting:video' post.pk %}">
+            <a href="{% url 'video_hosting:video' post.video.pk %}">
                 <div class="media">
                     <div class="media-content">
                         <div class="columns is-centered">
                             <div class="column is-one-quarter">
                                 <div class="container">
-                                    <img src="{{post.preview.url}}" alt=""
+                                    <img src="{{post.video.preview.url}}" alt=""
                                          class="image is-centered post-imag ml-6">
                                 </div>
                             </div>
                             <div class="column">
                                 <div class="title has-text-black is-4 mt-2 has-text-centered">
-                                    {{ post.name }}
+                                    {{ post.video.name }}
                                 </div>
                                 <div class="has-text-centered has-text-weight-semibold is-6 has-background-danger-dark has-text-danger-light has-text-centered">
-                                    {{ post.channel }}
+                                    {{ post.video.channel }}
                                 </div>
                                 <div class="has-text-grey-dark has-text-weight-semibold is-6 has-text-centered">
                                     {{ post.date|timesince }} назад

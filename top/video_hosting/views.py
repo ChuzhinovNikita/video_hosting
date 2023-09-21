@@ -1,20 +1,61 @@
 from django.shortcuts import render, redirect
 from .models import *
+from users.models import *
 from .forms import CreateChannelForm, CreateVideoForm, EditVideoForm
 from django.contrib.auth.decorators import login_required
 
 
 def home(request):
+    prof_user = UsersProfile.objects.get(user=request.user)
+
     posts = Video.objects.all().order_by('-date')
-    return render(request, 'home.html', {'posts': posts})
+    return render(request, 'home.html', {'posts': posts, 'prof_user': prof_user})
 
 
+@login_required(login_url='/users/log_in/')
 def video(request, pk):
     post = Video.objects.get(pk=pk)
-    posts = Video.objects.all().order_by('-date')
+    posts = ViewingQueue.objects.filter(user=request.user)
+    action = request.GET.get('action')
 
-    pk_v = request.COOKIES.get('pk')
-    print(pk_v)
+    # ========== УДАЛЕНИЕ ===========
+    if action == 'delete':
+        post.delete()
+        return redirect('video_hosting:home')
+
+    #  =============== СОХРАНИЕ В ИСТОРИЮ ======
+
+    if post.name in [i.__str__() for i in History.objects.all()]:
+        if request.user not in [i.user for i in History.objects.filter(video=post)]:
+            History.objects.create(
+                video=post,
+                user=request.user
+            )
+    else:
+        History.objects.create(
+            video=post,
+            user=request.user
+        )
+
+    #     =========== СМОТРЕТЬ ПОЗЖЕ ===========
+
+    if action == 'viewing_queue':
+        if post.name in [i.__str__() for i in ViewingQueue.objects.all()]:
+            if request.user not in [i.user for i in ViewingQueue.objects.filter(video=post)]:
+                ViewingQueue.objects.create(
+                    video=post,
+                    user=request.user
+                )
+        else:
+            ViewingQueue.objects.create(
+                video=post,
+                user=request.user
+            )
+
+    viewing = request.GET.get('viewing')
+
+    if viewing:
+        ViewingQueue.objects.get(video=post, user=request.user).delete()
 
     return render(request, 'video.html', {'post': post, 'posts': posts})
 
@@ -46,18 +87,6 @@ def edit_video(request, pk):
         return redirect('video_hosting:video', pk=pk)
 
     return render(request, 'edit_video.html', {'form': form})
-
-
-def delete(request):
-    pk = request.GET.get('pk')
-    post = Video.objects.get(pk=pk)
-    delete_video = request.GET.get('delete')
-
-    if delete_video:
-        print(pk)
-        post.delete()
-
-    return render(request, 'delete.html', {})
 
 
 def host_channel(request, pk):
@@ -144,11 +173,29 @@ def channel_all(request):
     return render(request, 'channel_all.html', {'channels': data_channel})
 
 
+@login_required(login_url='/users/log_in')
 def library(request):
     posts = Video.objects.all()
     action = request.GET.get('action')
-    print(action)
 
     posts = posts.filter(saved_video=request.user) if action == 'saved_video' else posts
+    posts = posts.filter(likes=request.user) if action == 'favorite' else posts
 
     return render(request, 'library.html', {'posts': posts})
+
+
+@login_required(login_url='/users/log_in')
+def history(request):
+    history_user = History.objects.filter(user=request.user).order_by('-date')
+
+    if history_user.count() > 10:
+        history_user[10].delete()
+
+    return render(request, 'history.html', {'history_user': history_user})
+
+
+@login_required(login_url='/users/log_in')
+def viewing_queue(request):
+    viewing_queue_posts = ViewingQueue.objects.filter(user=request.user)
+
+    return render(request, 'viewing_queue.html', {'viewing_queue_posts': viewing_queue_posts})

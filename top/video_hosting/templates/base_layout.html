@@ -71,7 +71,7 @@
                 {% else %}
                 <div class="buttons">
                     <a href="{% url 'users:log_in' %}" class="button is-light">
-                        Log in
+                        Войти
                     </a>
                 </div>
                 {% endif %}
@@ -134,11 +134,42 @@
                                        href="{% url 'video_hosting:library' %}?action=saved_video">
                                         Сохраненные видео
                                     </a>
+                                    <a class="navbar-item"
+                                       href="{% url 'video_hosting:history' %}">
+                                        История
+                                    </a>
+                                    <a class="navbar-item"
+                                       href="{% url 'video_hosting:viewing_queue' %}">
+                                        Смотреть позже
+                                    </a>
+                                    <a class="navbar-item"
+                                       href="{% url 'video_hosting:library' %}?action=favorite">
+                                        Понравившиеся
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </li>
                     <hr class="dropdown-divider">
+                    <li>
+                        {% if prof_user %}
+                        <div class="box has-text-centered">
+                            <figure class="user_icon image is-96x96">
+                                <img class="is-rounded" src="{{prof_user.image.url}}">
+                            </figure>
+                            <div class="title has-text-black is-5">
+                                {{request.user.first_name}}
+                            </div>
+                            <div class="subtitle has-text-grey-dark has-text-weight-semibold is-6">
+                                @{{request.user.username}}
+                            </div>
+                        </div>
+                        {% else %}
+                        <a href="{% url 'users:edit_profile' %}" class="button is-light">
+                            Заполнить профиль
+                        </a>
+                        {% endif %}
+                    </li>
                 </ul>
                 {% endif %}
             </div>
