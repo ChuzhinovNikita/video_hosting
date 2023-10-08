@@ -28,26 +28,28 @@
         </a>
     </div>
 
+
+
     <div id="navbarBasicExample" class="navbar-menu">
 
-        <div class="navbar-end">
-
-            <!--            ==============  НЕ ДОДЕЛАН ПОИСК !!!!!!!!!! ===========-->
-            <span class="navbar-item">
-                <form method="get" class="pt-3">
-                    <div class="field has-addons">
-                        <div class="control">
-                                <input type="search" class="input" name="search">
-                        </div>
-                        <div class="control">
-                            <button class="button" type="submit">
-                                    <ion-icon name="search-outline"></ion-icon>
-                            </button>
-                        </div>
+<!--        ================ ПОИСК ==========   -->
+         <span class="navbar_search">
+            <form method="get" class="pt-3">
+                <div class="field has-addons">
+                    <div class="control">
+                        <input type="search" class="input input_custom" name="search">
                     </div>
-                </form>
-            </span>
-            <!--            ===================                  -->
+                    <div class="control">
+                        <button class="button" type="submit">
+                            <ion-icon name="search-outline"></ion-icon>
+                        </button>
+                    </div>
+                </div>
+            </form>
+         </span>
+<!--        ======================================              -->
+
+        <div class="navbar-end">
 
             <div class="navbar-item">
                 {% if user.is_authenticated %}
@@ -151,6 +153,7 @@
                         </div>
                     </li>
                     <hr class="dropdown-divider">
+                    {% if request.path == '/video_hosting/home/' %}
                     <li>
                         {% if prof_user %}
                         <div class="box has-text-centered">
@@ -165,11 +168,14 @@
                             </div>
                         </div>
                         {% else %}
-                        <a href="{% url 'users:edit_profile' %}" class="button is-light">
+                        <a href="{% url 'users:edit_profile' %}"
+                           class="button is-light has-background-link has-text-white m-4">
                             Заполнить профиль
                         </a>
                         {% endif %}
                     </li>
+                    <hr class="dropdown-divider">
+                    {% endif %}
                 </ul>
                 {% endif %}
             </div>

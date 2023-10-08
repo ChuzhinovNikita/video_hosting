@@ -1,14 +1,25 @@
 from django.shortcuts import render, redirect
 from .models import *
 from users.models import *
-from .forms import CreateChannelForm, CreateVideoForm, EditVideoForm
+from .forms import CreateChannelForm, CreateVideoForm, EditVideoForm, CommentForm, ParentForm, ComplaintAboutThePostForm
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 
 def home(request):
-    prof_user = UsersProfile.objects.get(user=request.user)
-
+    search = request.GET.get('search')
     posts = Video.objects.all().order_by('-date')
+
+    # ================== ПОИСК ==========================
+    if search:
+        posts = Video.objects.filter(Q(name__icontains=search))
+
+    # ================== ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ ===========
+    if request.user in [i.user for i in UsersProfile.objects.all()]:
+        prof_user = UsersProfile.objects.get(user=request.user)
+    else:
+        prof_user = False
+
     return render(request, 'home.html', {'posts': posts, 'prof_user': prof_user})
 
 
@@ -38,6 +49,7 @@ def video(request, pk):
         )
 
     #     =========== СМОТРЕТЬ ПОЗЖЕ ===========
+    page_home = request.GET.get('page_home')
 
     if action == 'viewing_queue':
         if post.name in [i.__str__() for i in ViewingQueue.objects.all()]:
@@ -52,12 +64,57 @@ def video(request, pk):
                 user=request.user
             )
 
+        if page_home:
+            return redirect('video_hosting:home')
+
     viewing = request.GET.get('viewing')
 
     if viewing:
         ViewingQueue.objects.get(video=post, user=request.user).delete()
 
-    return render(request, 'video.html', {'post': post, 'posts': posts})
+    # ===================== ПРОСМОТРЫ ====================
+
+    if action == 'views':
+        post.views.add(request.user)
+
+    # ==================== КОММЕНТАРИИ ====================
+    comments = Comment.objects.filter(video=Video.objects.get(pk=pk))
+    form_comment = CommentForm(request.POST or None)
+
+    if form_comment.is_valid() and request.method == 'POST':
+        instance = form_comment.save(commit=False)
+        instance.video = Video.objects.get(pk=pk)
+        instance.user = request.user
+        instance.save()
+
+        return redirect('video_hosting:video', pk=pk)
+    #  ОТВЕТЫ НА КОММЕНТЫ
+    parent = request.GET.get('parent')
+    parent_form = ParentForm(request.POST or None)
+    parent_comments = CommentParent.objects.all()
+    self = request.GET.get('self')
+
+    if self:
+        if parent_form.is_valid() and request.method == 'POST':
+            instance = parent_form.save(commit=False)
+            instance.parent = Comment.objects.get(pk=parent)
+            instance.user = request.user
+            instance.self = CommentParent.objects.get(pk=self)
+            instance.save()
+
+            return redirect('video_hosting:video', pk=pk)
+    else:
+        if parent_form.is_valid() and request.method == 'POST':
+            instance = parent_form.save(commit=False)
+            instance.parent = Comment.objects.get(pk=parent)
+            instance.user = request.user
+            instance.save()
+
+            return redirect('video_hosting:video', pk=pk)
+
+    return render(request, 'video.html',
+                  {'post': post, 'posts': posts, 'comments': comments, 'form_comment': form_comment,
+                   'parent_form': parent_form, 'parent_comments': parent_comments})
 
 
 def create_video(request):
@@ -121,13 +178,18 @@ def subscriptions(request):
 @login_required(login_url='/users/log_in/')
 def saved_channel(request, pk):
     data_channel = HostingСhannel.objects.get(pk=pk)
+    video_pk = request.GET.get('pk')
+    page_video = request.GET.get('page_video')
 
     if request.user not in data_channel.saved_channel.all():
         data_channel.saved_channel.add(request.user)
     elif request.user in data_channel.saved_channel.all():
         data_channel.saved_channel.remove(request.user)
 
-    return redirect('video_hosting:host_channel', pk=pk)
+    if page_video:
+        return redirect('video_hosting:video', pk=video_pk)
+    else:
+        return redirect('video_hosting:host_channel', pk=pk)
 
 
 @login_required(login_url='/users/log_in')
@@ -157,6 +219,56 @@ def dislike(request, pk):
 
 
 @login_required(login_url='/users/log_in')
+def com_like(request, pk):
+    comment_data = Comment.objects.get(pk=pk)
+
+    if request.user not in comment_data.com_likes.all():
+        comment_data.com_likes.add(request.user)
+        comment_data.com_dislikes.remove(request.user)
+    elif request.user in comment_data.com_likes.all():
+        comment_data.com_likes.remove(request.user)
+
+    return redirect('video_hosting:video', pk=comment_data.video.pk)
+
+
+@login_required(login_url='/users/log_in')
+def com_dislike(request, pk):
+    comment_data = Comment.objects.get(pk=pk)
+
+    if request.user not in comment_data.com_dislikes.all():
+        comment_data.com_dislikes.add(request.user)
+        comment_data.com_likes.remove(request.user)
+    elif request.user in comment_data.com_dislikes.all():
+        comment_data.com_dislikes.remove(request.user)
+    return redirect('video_hosting:video', pk=comment_data.video.pk)
+
+
+@login_required(login_url='/users/log_in')
+def com_like_parent(request, pk):
+    comment_data = CommentParent.objects.get(pk=pk)
+
+    if request.user not in comment_data.com_likes_parent.all():
+        comment_data.com_likes_parent.add(request.user)
+        comment_data.com_dislikes_parent.remove(request.user)
+    elif request.user in comment_data.com_likes_parent.all():
+        comment_data.com_likes_parent.remove(request.user)
+
+    return redirect('video_hosting:video', pk=comment_data.parent.video.pk)
+
+
+@login_required(login_url='/users/log_in')
+def com_dislike_parent(request, pk):
+    comment_data = CommentParent.objects.get(pk=pk)
+
+    if request.user not in comment_data.com_dislikes_parent.all():
+        comment_data.com_dislikes_parent.add(request.user)
+        comment_data.com_likes_parent.remove(request.user)
+    elif request.user in comment_data.com_dislikes_parent.all():
+        comment_data.com_dislikes_parent.remove(request.user)
+    return redirect('video_hosting:video', pk=comment_data.parent.video.pk)
+
+
+@login_required(login_url='/users/log_in')
 def saved_video(request, pk):
     post = Video.objects.get(pk=pk)
 
@@ -169,7 +281,13 @@ def saved_video(request, pk):
 
 
 def channel_all(request):
+    search = request.GET.get('search')
     data_channel = HostingСhannel.objects.all()
+
+    # ============== ПОИСК ====================
+    if search:
+        data_channel = HostingСhannel.objects.filter(Q(name__icontains=search))
+
     return render(request, 'channel_all.html', {'channels': data_channel})
 
 
@@ -199,3 +317,49 @@ def viewing_queue(request):
     viewing_queue_posts = ViewingQueue.objects.filter(user=request.user)
 
     return render(request, 'viewing_queue.html', {'viewing_queue_posts': viewing_queue_posts})
+
+
+def complaint_form(request):
+    form = ComplaintAboutThePostForm(request.POST or None)
+    self = request.GET.get('self')
+    pk = request.GET.get('pk')
+    video_page_pk = request.GET.get('video_page')
+    home_page = request.GET.get('home_page')
+
+    if self == 'video':
+        if form.is_valid():
+            ComplaintAboutThePost.objects.create(
+                user=request.user,
+                self_video=Video.objects.get(pk=pk),
+                violation=request.POST.get('violation'),
+                text_violation=request.POST.get('text_violation')
+            )
+
+            if video_page_pk:
+                return redirect('video_hosting:video', pk=video_page_pk)
+            elif home_page:
+                return redirect('video_hosting:home')
+
+    elif self == 'comment':
+        if form.is_valid():
+            ComplaintAboutThePost.objects.create(
+                user=request.user,
+                self_comment=Comment.objects.get(pk=pk),
+                violation=request.POST.get('violation'),
+                text_violation=request.POST.get('text_violation')
+            )
+
+            return redirect('video_hosting:video', pk=video_page_pk)
+
+    elif self == 'parent':
+        if form.is_valid():
+            ComplaintAboutThePost.objects.create(
+                user=request.user,
+                self_comment_parent=CommentParent.objects.get(pk=pk),
+                violation=request.POST.get('violation'),
+                text_violation=request.POST.get('text_violation')
+            )
+
+            return redirect('video_hosting:video', pk=video_page_pk)
+
+    return render(request, 'complaint_form.html', {'form': form})

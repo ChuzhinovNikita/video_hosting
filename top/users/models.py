@@ -6,5 +6,3 @@ class UsersProfile(models.Model):
     image = models.ImageField(default='user.png', blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
-    # def __str__(self):
-    #     return self.user

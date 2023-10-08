@@ -17,4 +17,7 @@ urlpatterns = [
     path('edit_video/<int:pk>', views.edit_video, name='edit_video'),
     path('history/', views.history, name='history'),
     path('viewing_queue/', views.viewing_queue, name='viewing_queue'),
+    path('com_like/<int:pk>', views.com_like, name='com_like'),
+    path('com_dislike/<int:pk>', views.com_dislike, name='com_dislike'),
+    path('complaint_form/', views.complaint_form, name='complaint_form'),
 ]

@@ -21,7 +21,10 @@
                                 {{ data.name }}
                             </div>
                             <div class="has-text-grey-dark has-text-weight-semibold is-6">
-                                {{ data.slug }}
+                                @{{ data.slug }}
+                            </div>
+                            <div class="subtitle has-text-grey-dark has-text-weight-semibold is-6">
+                                {{ data.saved_channel_counter }} подписчиков
                             </div>
                             <div class="dropdown is-hoverable">
                                 <div class="dropdown-trigger">
@@ -105,7 +108,7 @@
                 <div class="column is-3">
                     <div class="card has-text-centered">
                         <div class="card-content">
-                            <a href="{% url 'video_hosting:video' post.pk %}">
+                            <a href="{% url 'video_hosting:video' post.pk %}?action=views">
                                 <div class="media">
                                     <div class="media-content">
                                         <div class="container pb-4 mb-3">

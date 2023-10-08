@@ -22,3 +22,38 @@
 .user_icon{
     margin: 0 auto;
 }
+.navbar-menu {
+    width: 80%;
+    display: flex;
+    justify-content: flex-end;
+}
+.navbar-end {
+    width: 40%;
+    margin: 0;
+}
+
+.input_custom{
+    width: 450px;
+}
+
+.comment_edit label {
+    display: none;
+}
+
+.cart_comment{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.cart-parent{
+    width: 60%;
+    border-left: 1px solid darkgrey;
+}
+
+.parent-form label{
+    display: none;
+}
+
+.complain-form label{
+    display: none;
+}

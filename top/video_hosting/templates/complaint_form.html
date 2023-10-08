@@ -1,0 +1,33 @@
+{% extends 'base_layout.html' %}
+{% load static from static %}
+
+{% block content %}
+<div class="columns is-centered mt-3">
+    <div class="column is-4">
+        <div class="box has-background-info-light">
+            <form class="complain-form has-background-light has-text-centered" method="post">
+                <div class="title is-2 has-text-centered has-text-black">Жалоба</div>
+                {% csrf_token %}
+
+                {% for field in form %}
+
+                <div class="field">
+                    {{ field }}
+                </div>
+
+                {% endfor %}
+                <div class="has-text-centered">
+                    <button type="submit" class="button is-success my-3">
+                        Отправить
+                    </button>
+                </div>
+                <div class="has-text-centered">
+                    <a class="is-ghost is-info" href="{% url 'video_hosting:home' %}">
+                        Отмена
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

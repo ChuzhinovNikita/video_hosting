@@ -32,3 +32,36 @@ class EditVideoForm(BulmaMixin, forms.ModelForm):
     class Meta:
         model = HostingСhannel
         fields = ['preview', 'name', 'description']
+
+
+class CommentForm(forms.ModelForm):
+    body = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'textarea',
+        'size': '40',
+        'placeholder': 'Оставьте свой комментарий...'
+    }))
+
+    class Meta:
+        model = Comment
+        fields = ['body', ]
+
+
+class ParentForm(BulmaMixin, forms.ModelForm):
+    text = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Введите комментарий'}))
+
+    class Meta:
+        model = CommentParent
+        fields = ['text']
+
+
+class ComplaintAboutThePostForm(forms.ModelForm):
+    violation = forms.ChoiceField(choices=VIOL_CHOICES, required=True, label='Причина жалобы')
+    text_violation = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'textarea',
+        'size': '60',
+        'placeholder': 'Оставьте свою жалобу...'
+    }))
+
+    class Meta:
+        model = ComplaintAboutThePost
+        fields = ['violation', 'text_violation']

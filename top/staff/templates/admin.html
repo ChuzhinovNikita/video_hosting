@@ -1,6 +1,78 @@
-{% extends 'base_layout.html' %}
+{% extends 'admin_layout.html' %}
 {% load static from static %}
 
 {% block content %}
-<h1>Hi, admin</h1>
+<div class="section">
+    <div class="columns is-vcentered">
+        <div class="column has-text-centered">
+            <div class="title">
+                Жалобы
+            </div>
+            <hr class="dropdown-divider">
+            {% for complaint in complaints %}
+            <div class="box">
+                <div class="cart">
+                    <div class="cart-content">
+                        <div class="columns is-vcentered">
+                            <div class="column">
+                                <div class="subtitle">
+                                    {{ complaint.violation }}
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="subtitle">
+                                    {{ complaint.date }}
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="subtitle">
+                                    {{ complaint.user }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subtitle">
+                            {{ complaint.text_violation }}
+                        </div>
+                        <div class="subtitle">
+                            {% if complaint.self_video %}
+
+                            {{ complaint.self_video }}
+                            <br>
+
+                            <a href="{% url 'video_hosting:video' complaint.self_video.pk %}" class="button">
+                                Смотреть
+                            </a>
+
+                            {% elif complaint.self_comment %}
+
+                            {{ complaint.self_comment }}
+                            <br>
+
+                            <a href="{% url 'video_hosting:video' complaint.self_comment.video.pk %}" class="button">
+                                Смотреть
+                            </a>
+
+                            {% elif complaint.self_comment_parent %}
+
+                            {{ complaint.self_comment_parent }}
+                            <br>
+
+                            <a href="{% url 'video_hosting:video' complaint.self_comment_parent.parent.video.pk %}" class="button">
+                                Смотреть
+                            </a>
+
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="column has-text-centered">
+            <div class="title">
+                Проверка
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

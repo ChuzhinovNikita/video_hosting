@@ -12,7 +12,36 @@
             <div class="column is-4">
                 <div class="card has-text-centered">
                     <div class="card-content">
-                        <a href="{% url 'video_hosting:video' post.pk %}">
+                        <div class="columns">
+                            <div class="column"></div>
+                            <div class="column has-text-right">
+                                <div class="dropdown is-hoverable">
+                                    <div class="dropdown-trigger">
+                                        <div class="subtitle has-text-grey-dark is-5 has-text-centered"
+                                             aria-haspopup="true"
+                                             aria-controls="dropdown-menu4">
+                                            <span class="is-size-3">
+                                                <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-menu" role="menu">
+                                        <div class="dropdown-content">
+                                            <a href="{% url 'video_hosting:video' post.pk %}?action=viewing_queue&page_home=True"
+                                               class="navbar-item button is-ghost has-text-grey-dark">
+                                                Добавить в очередь просмотра
+                                            </a>
+                                            <a href="{% url 'video_hosting:complaint_form' %}?self=video&pk={{post.pk}}&home_page=True"
+                                               class="navbar-item button is-ghost has-text-grey-dark">
+                                                <ion-icon name="flag-outline"></ion-icon>
+                                                <span class="ml-3">Пожаловаться</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{% url 'video_hosting:video' post.pk %}?action=views">
                             <div class="media">
                                 <div class="media-content">
                                     <div class="container pb-4 mb-3">
@@ -32,6 +61,26 @@
                                             <div class="subtitle has-text-grey-dark has-text-weight-semibold is-6">
                                                 {{ post.date|timesince }} назад
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="columns is-vcentered">
+                                        <div class="column">
+                                            <span class="subtitle has-text-grey-dark has-text-weight-semibold is-5">
+                                                {{ post.views_counter }}
+                                            </span>
+                                            <span class="ml-2">
+                                                <ion-icon name="eye-outline"
+                                                          class="has-text-grey-dark is-size-5"></ion-icon>
+                                            </span>
+                                        </div>
+                                        <div class="column">
+                                            <span class="subtitle has-text-grey-dark has-text-weight-semibold is-5 ml-3">
+                                                {{ post.likes_counter }}
+                                            </span>
+                                            <span>
+                                                <ion-icon name="heart-outline"
+                                                          class="has-text-grey-dark is-size-5"></ion-icon>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
