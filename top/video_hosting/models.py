@@ -10,6 +10,8 @@ class HostingСhannel(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     saved_channel = models.ManyToManyField(User, related_name='saved_channel')
+    strike = models.IntegerField(default=0)
+    blocked = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

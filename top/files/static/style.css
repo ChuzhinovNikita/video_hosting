@@ -57,3 +57,18 @@
 .complain-form label{
     display: none;
 }
+
+.form-punishment label{
+    display: none;
+}
+
+body{
+    background-image: url("../uploads/Group 1.png");
+}
+
+.logo{
+    width: 100px;
+    height: 100px;
+    background-image: url("../uploads/Logo.png");
+    background-size: cover;
+}

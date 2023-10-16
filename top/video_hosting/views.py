@@ -9,6 +9,7 @@ from django.db.models import Q
 def home(request):
     search = request.GET.get('search')
     posts = Video.objects.all().order_by('-date')
+    user_prof = UsersProfile.objects.get(user=request.user)
 
     # ================== ПОИСК ==========================
     if search:
@@ -20,7 +21,7 @@ def home(request):
     else:
         prof_user = False
 
-    return render(request, 'home.html', {'posts': posts, 'prof_user': prof_user})
+    return render(request, 'home.html', {'posts': posts, 'prof_user': prof_user, 'user_prof': user_prof})
 
 
 @login_required(login_url='/users/log_in/')

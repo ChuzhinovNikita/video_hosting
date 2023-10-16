@@ -33,45 +33,24 @@
                         <div class="subtitle">
                             {{ complaint.text_violation }}
                         </div>
-                        <div class="subtitle">
-                            {% if complaint.self_video %}
-
-                            {{ complaint.self_video }}
-                            <br>
-
-                            <a href="{% url 'video_hosting:video' complaint.self_video.pk %}" class="button">
-                                Смотреть
-                            </a>
-
-                            {% elif complaint.self_comment %}
-
-                            {{ complaint.self_comment }}
-                            <br>
-
-                            <a href="{% url 'video_hosting:video' complaint.self_comment.video.pk %}" class="button">
-                                Смотреть
-                            </a>
-
-                            {% elif complaint.self_comment_parent %}
-
-                            {{ complaint.self_comment_parent }}
-                            <br>
-
-                            <a href="{% url 'video_hosting:video' complaint.self_comment_parent.parent.video.pk %}" class="button">
-                                Смотреть
-                            </a>
-
-                            {% endif %}
+                        <div class="columns is-vcentered">
+                            <div class="column has-text-centered">
+                                <a href="{% url 'staff:complaint' complaint.pk %}"
+                                   class="button is-light is-success is-fullwidth is-medium">
+                                    Смотреть
+                                </a>
+                            </div>
+                            <div class="column has-text-centered">
+                                <a href="{% url 'staff:admin' %}?action=delete&pk={{complaint.pk}}"
+                                   class="button is-danger is-light is-fullwidth is-medium">
+                                    Отклонить
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             {% endfor %}
-        </div>
-        <div class="column has-text-centered">
-            <div class="title">
-                Проверка
-            </div>
         </div>
     </div>
 </div>
