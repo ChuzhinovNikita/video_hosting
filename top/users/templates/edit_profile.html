@@ -1,4 +1,4 @@
-{% extends 'base_layout.html' %}
+{% extends 'users_layout.html' %}
 {% load static from static %}
 
 {% block content %}
@@ -10,7 +10,7 @@
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="title is-4">
-                            Редактирование профиля
+                            Пожалуйста, заполните профиль
                         </div>
                         {% for field in form %}
                         <div class="field">

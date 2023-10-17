@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
 
+@login_required(login_url='/users/log_in')
 def home(request):
     search = request.GET.get('search')
     posts = Video.objects.all().order_by('-date')
@@ -21,11 +22,13 @@ def home(request):
     else:
         prof_user = False
 
-    return render(request, 'home.html', {'posts': posts, 'prof_user': prof_user, 'user_prof': user_prof})
+    return render(request, 'home.html',
+                  {'posts': posts, 'prof_user': prof_user, 'user_prof': user_prof})
 
 
 @login_required(login_url='/users/log_in/')
 def video(request, pk):
+    user_prof = UsersProfile.objects.get(user=request.user)
     post = Video.objects.get(pk=pk)
     posts = ViewingQueue.objects.filter(user=request.user)
     action = request.GET.get('action')
@@ -115,10 +118,12 @@ def video(request, pk):
 
     return render(request, 'video.html',
                   {'post': post, 'posts': posts, 'comments': comments, 'form_comment': form_comment,
-                   'parent_form': parent_form, 'parent_comments': parent_comments})
+                   'parent_form': parent_form, 'parent_comments': parent_comments, 'user_prof': user_prof})
 
 
+@login_required(login_url='/users/log_in')
 def create_video(request):
+    user_prof = UsersProfile.objects.get(user=request.user)
     form = CreateVideoForm(request.POST or None, request.FILES or None)
     pk_channel = request.GET.get('pk_channel')
     channel = HostingСhannel.objects.get(pk=pk_channel)
@@ -134,28 +139,33 @@ def create_video(request):
         )
         return redirect('video_hosting:host_channel', pk=pk_channel)
 
-    return render(request, 'create_video.html', {'form': form})
+    return render(request, 'create_video.html', {'form': form, 'user_prof': user_prof})
 
 
+@login_required(login_url='/users/log_in')
 def edit_video(request, pk):
+    user_prof = UsersProfile.objects.get(user=request.user)
     form = EditVideoForm(request.POST or None, request.FILES or None, instance=Video.objects.get(pk=pk))
 
     if form.is_valid():
         form.save()
         return redirect('video_hosting:video', pk=pk)
 
-    return render(request, 'edit_video.html', {'form': form})
+    return render(request, 'edit_video.html', {'form': form, 'user_prof': user_prof})
 
 
+@login_required(login_url='/users/log_in')
 def host_channel(request, pk):
+    user_prof = UsersProfile.objects.get(user=request.user)
     data_channel = HostingСhannel.objects.get(pk=pk)
     posts = Video.objects.filter(channel=data_channel)
 
-    return render(request, 'host_channel.html', {'data': data_channel, 'posts': posts})
+    return render(request, 'host_channel.html', {'data': data_channel, 'posts': posts, 'user_prof': user_prof})
 
 
 @login_required(login_url='/users/log_in/')
 def create_channel(request):
+    user_prof = UsersProfile.objects.get(user=request.user)
     form = CreateChannelForm(request.POST or None, request.FILES or None)
 
     if form.is_valid():
@@ -168,12 +178,14 @@ def create_channel(request):
         )
         return redirect('video_hosting:home')
 
-    return render(request, 'create_channel.html', {'form': form})
+    return render(request, 'create_channel.html', {'form': form, 'user_prof': user_prof})
 
 
+@login_required(login_url='/users/log_in')
 def subscriptions(request):
+    user_prof = UsersProfile.objects.get(user=request.user)
     my_subscriptions = HostingСhannel.objects.filter(saved_channel=request.user)
-    return render(request, 'subscriptions.html', {'my_subscriptions': my_subscriptions})
+    return render(request, 'subscriptions.html', {'my_subscriptions': my_subscriptions, 'user_prof': user_prof})
 
 
 @login_required(login_url='/users/log_in/')
@@ -281,7 +293,9 @@ def saved_video(request, pk):
     return redirect('video_hosting:video', pk=pk)
 
 
+@login_required(login_url='/users/log_in')
 def channel_all(request):
+    user_prof = UsersProfile.objects.get(user=request.user)
     search = request.GET.get('search')
     data_channel = HostingСhannel.objects.all()
 
@@ -289,38 +303,43 @@ def channel_all(request):
     if search:
         data_channel = HostingСhannel.objects.filter(Q(name__icontains=search))
 
-    return render(request, 'channel_all.html', {'channels': data_channel})
+    return render(request, 'channel_all.html', {'channels': data_channel, 'user_prof': user_prof})
 
 
 @login_required(login_url='/users/log_in')
 def library(request):
+    user_prof = UsersProfile.objects.get(user=request.user)
     posts = Video.objects.all()
     action = request.GET.get('action')
 
     posts = posts.filter(saved_video=request.user) if action == 'saved_video' else posts
     posts = posts.filter(likes=request.user) if action == 'favorite' else posts
 
-    return render(request, 'library.html', {'posts': posts})
+    return render(request, 'library.html', {'posts': posts, 'user_prof': user_prof})
 
 
 @login_required(login_url='/users/log_in')
 def history(request):
+    user_prof = UsersProfile.objects.get(user=request.user)
     history_user = History.objects.filter(user=request.user).order_by('-date')
 
     if history_user.count() > 10:
         history_user[10].delete()
 
-    return render(request, 'history.html', {'history_user': history_user})
+    return render(request, 'history.html', {'history_user': history_user, 'user_prof': user_prof})
 
 
 @login_required(login_url='/users/log_in')
 def viewing_queue(request):
+    user_prof = UsersProfile.objects.get(user=request.user)
     viewing_queue_posts = ViewingQueue.objects.filter(user=request.user)
 
-    return render(request, 'viewing_queue.html', {'viewing_queue_posts': viewing_queue_posts})
+    return render(request, 'viewing_queue.html', {'viewing_queue_posts': viewing_queue_posts, 'user_prof': user_prof})
 
 
+@login_required(login_url='/users/log_in')
 def complaint_form(request):
+    user_prof = UsersProfile.objects.get(user=request.user)
     form = ComplaintAboutThePostForm(request.POST or None)
     self = request.GET.get('self')
     pk = request.GET.get('pk')
@@ -363,4 +382,4 @@ def complaint_form(request):
 
             return redirect('video_hosting:video', pk=video_page_pk)
 
-    return render(request, 'complaint_form.html', {'form': form})
+    return render(request, 'complaint_form.html', {'form': form, 'user_prof': user_prof})

@@ -17,13 +17,17 @@ def register(request):
 
 def log_in(request):
     valid_user = True
+    mas_users_prof = [i.user.__str__() for i in UsersProfile.objects.all()]
 
     if request.method == 'POST':
         form = LoginForm(data=request.POST or None)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('video_hosting:home')
+            if user.__str__() in mas_users_prof:
+                return redirect('video_hosting:home')
+            else:
+                return redirect('users:edit_profile')
         valid_user = False
     form = LoginForm()
     return render(request, 'log_in.html', {'form': form, 'valid_user': valid_user})

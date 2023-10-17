@@ -30,8 +30,10 @@
 <nav class="navbar ml-5 mr-5" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="{% url 'video_hosting:home' %}">
-<!--            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">-->
             <div class="logo"></div>
+            <div class="logo_name">
+                Movir
+            </div>
         </a>
 
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -188,6 +190,15 @@
                         {% endif %}
                     </li>
                     <hr class="dropdown-divider">
+                    {% endif %}
+                    {% if user.is_staff %}
+                    <li class="mt-3">
+                        <a href="{% url 'staff:admin' %}"
+                           class="subtitle has-text-grey-dark has-text-weight-semibold">
+                            Админка
+                            <ion-icon name="construct"></ion-icon>
+                        </a>
+                    </li>
                     {% endif %}
                 </ul>
                 {% endif %}

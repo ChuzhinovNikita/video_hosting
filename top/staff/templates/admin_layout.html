@@ -15,11 +15,14 @@
 </head>
 <body>
 
-
+{% if user.is_staff %}
 <nav class="navbar ml-3 mr-3" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
-            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+        <a class="navbar-item" href="{% url 'video_hosting:home' %}">
+            <div class="logo"></div>
+            <div class="logo_name">
+                Movir
+            </div>
         </a>
 
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -61,6 +64,18 @@
         </div>
     </div>
 </nav>
+{% else %}
+<div class="columns is-vcentered">
+    <div class="column has-text-centered">
+        <div class="box">
+            <div class="title has-text-danger">
+                А вам сюда нельзя!
+                <ion-icon name="thumbs-down"></ion-icon>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <div class="section">
     {% block content %}

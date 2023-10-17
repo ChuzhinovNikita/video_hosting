@@ -1,38 +1,41 @@
-.head{
+.head {
     width: 550px;
     height: 190px;
 }
-.channel-img{
+
+.channel-img {
     width: 70%;
 }
 
-.form-box{
+.form-box {
     margin: 0 auto;
     width: 60%;
 }
 
-.form-box button{
+.form-box button {
     width: 30%;
 }
 
-.post_pk{
+.post_pk {
     display: none;
 }
 
-.user_icon{
+.user_icon {
     margin: 0 auto;
 }
+
 .navbar-menu {
     width: 80%;
     display: flex;
     justify-content: flex-end;
 }
+
 .navbar-end {
     width: 40%;
     margin: 0;
 }
 
-.input_custom{
+.input_custom {
     width: 450px;
 }
 
@@ -40,35 +43,45 @@
     display: none;
 }
 
-.cart_comment{
+.cart_comment {
     width: 80%;
     margin: 0 auto;
 }
 
-.cart-parent{
+.cart-parent {
     width: 60%;
     border-left: 1px solid darkgrey;
 }
 
-.parent-form label{
+.parent-form label {
     display: none;
 }
 
-.complain-form label{
+.complain-form label {
     display: none;
 }
 
-.form-punishment label{
+.form-punishment label {
     display: none;
 }
 
-body{
+body {
     background-image: url("../uploads/Group 1.png");
 }
 
-.logo{
-    width: 100px;
-    height: 100px;
+.logo {
+    margin: 0;
+    width: 50px;
+    height: 50px;
     background-image: url("../uploads/Logo.png");
     background-size: cover;
+}
+
+.logo_name {
+    font-family: Kanit;
+    font-size: 56px;
+    font-weight: 600;
+    line-height: 62px;
+    letter-spacing: -0.01em;
+    text-align: center;
 }
