@@ -12,6 +12,7 @@
     width: 60%;
 }
 
+
 .form-box button {
     width: 30%;
 }
@@ -66,7 +67,9 @@
 }
 
 body {
+    background-size: cover;
     background-image: url("../uploads/Group 1.png");
+    background-attachment: fixed;
 }
 
 .logo {
@@ -86,3 +89,9 @@ body {
     text-align: center;
 }
 
+.has-mycolor {
+    background-color: #e49e18;
+    color: #ffffff;
+    border-color: #e49e18;
+
+}
