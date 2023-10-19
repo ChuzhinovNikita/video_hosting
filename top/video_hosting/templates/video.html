@@ -24,12 +24,12 @@
 
         <div class="columns is-centered">
             <div class="column is-three-quarters">
-                <div class="box">
+                <div class="box background-black">
                     <figure class="has-text-centered">
                         <video src="{{post.video.url}}" style="width: 1000px; height: 650px; border-radius: 20px"
                                poster="{{post.preview.url}}" controls></video>
                     </figure>
-                    <div class="title has-text-grey-dark is-3 has-text-centered mt-3">
+                    <div class="title has-text-white is-3 has-text-centered mt-3">
                         {{ post.name }}
                     </div>
                     <div class="columns is-vcentered">
@@ -40,7 +40,7 @@
                             <div class="columns is-vcentered">
                                 <div class="column">
                                     <a href="{% url 'video_hosting:host_channel' post.channel.pk %}"
-                                       class="subtitle has-text-grey-dark has-text-weight-semibold is-5">
+                                       class="subtitle has-text-white has-text-weight-semibold is-5">
                                         {{ post.channel }}
                                     </a>
                                 </div>
@@ -51,11 +51,11 @@
                                               action="{% url 'video_hosting:saved_channel' post.channel.pk %}?pk={{post.pk}}&page_video=True">
                                             {% csrf_token %}
                                             {% if request.user not in post.channel.saved_channel.all %}
-                                            <button class="button is-info is-light is-medium" type="submit">
+                                            <button class="button color-orange  is-medium" type="submit">
                                                 Подписаться
                                             </button>
                                             {% else %}
-                                            <button class="button is-danger is-light is-medium" type="submit">
+                                            <button class="button color-orange is-medium" type="submit">
                                                 Отписаться
                                             </button>
                                             {% endif %}
@@ -68,7 +68,7 @@
                                         <div class="button subtitle has-text-grey-dark is-5 has-text-centered"
                                              aria-haspopup="true"
                                              aria-controls="dropdown-menu4">
-                                            <div class="columns is-vcentered">
+                                            <div class="columns is-vcentered has-text-white">
                                                 <div class="column is-four-fifths">
                                                     <span>Управление</span>
                                                 </div>
@@ -81,13 +81,13 @@
                                         </div>
                                     </div>
                                     <div class="dropdown-menu" role="menu">
-                                        <div class="dropdown-content">
-                                            <a class="navbar-item"
+                                        <div class="dropdown-content background-black">
+                                            <a class="navbar-item has-text-white"
                                                href="{% url 'video_hosting:edit_video' post.pk %}">
                                                 Изменить
                                             </a>
                                             <a onclick="addDeleteModal()"
-                                               class="navbar-item has-text-danger">
+                                               class="navbar-item has-text-white">
                                                 Удалить
                                             </a>
                                         </div>
@@ -105,10 +105,10 @@
                                 <div class="column has-text-right">
                                     <form method="post" action="{% url 'video_hosting:like' post.pk %}">
                                         {% csrf_token %}
-                                        <button class="button is-light is-large {% if user in post.likes.all %} is-success {% endif %}"
+                                        <button class="button is-ghost has-text-white is-large {% if user in post.likes.all %} has-text-success {% endif %}"
                                                 type="submit">
                                             <ion-icon name="heart-outline"></ion-icon>
-                                            <span class="subtitle has-text-grey-dark has-text-weight-semibold is-5 ml-3">
+                                            <span class="subtitle has-text-white has-text-weight-semibold is-5 ml-3">
                                                 {{ post.likes_counter }}
                                             </span>
                                         </button>
@@ -117,7 +117,7 @@
                                 <div class="column has-text-left">
                                     <form method="post" action="{% url 'video_hosting:dislike' post.pk %}">
                                         {% csrf_token %}
-                                        <button class="button is-light is-large {% if user in post.dislikes.all %} is-danger {% endif %}"
+                                        <button class="button is-ghost has-text-white is-large {% if user in post.dislikes.all %} has-text-danger {% endif %}"
                                                 type="submit">
                                             <ion-icon name="heart-dislike-outline"></ion-icon>
                                         </button>
@@ -129,7 +129,7 @@
                                 <div class="column has-text-right">
                                     <form method="post" action="{% url 'video_hosting:saved_video' post.pk %}">
                                         {% csrf_token %}
-                                        <button class="button is-light is-large {% if user in post.saved_video.all %} is-link {% endif %}"
+                                        <button class="button is-ghost has-text-white is-large {% if user in post.saved_video.all %} has-text-success {% endif %}"
                                                 type="submit">
                                             <ion-icon name="bookmarks-outline"></ion-icon>
                                         </button>
@@ -141,7 +141,7 @@
                                 <div class="column has-text-right">
                                     <div class="dropdown is-hoverable mr-5">
                                         <div class="dropdown-trigger">
-                                            <div class="subtitle has-text-grey-dark is-5 has-text-centered"
+                                            <div class="subtitle has-text-white is-5 has-text-centered"
                                                  aria-haspopup="true"
                                                  aria-controls="dropdown-menu4">
                                                 <span class="is-size-3">
@@ -150,13 +150,13 @@
                                             </div>
                                         </div>
                                         <div class="dropdown-menu" role="menu">
-                                            <div class="dropdown-content">
+                                            <div class="dropdown-content background-black">
                                                 <a href="{% url 'video_hosting:video' post.pk %}?action=viewing_queue"
-                                                   class="navbar-item button is-ghost has-text-grey-dark">
+                                                   class="navbar-item button is-ghost has-text-white">
                                                     Добавить в очередь просмотра
                                                 </a>
                                                 <a href="{% url 'video_hosting:complaint_form' %}?self=video&pk={{post.pk}}&video_page={{post.pk}}"
-                                                   class="navbar-item button is-ghost has-text-grey-dark">
+                                                   class="navbar-item button is-ghost has-text-white">
                                                     <ion-icon name="flag-outline"></ion-icon>
                                                     <span class="ml-3">Пожаловаться</span>
                                                 </a>
@@ -170,18 +170,18 @@
 
 
                     </div>
-                    <div class="subtitle has-text-grey-dark has-text-weight-semibold is-6">
-                        {{ post.views_counter }} просмотров
+                    <div class="subtitle has-text-white has-text-weight-semibold is-6">
+                        Просмотры - {{ post.views_counter }}
                     </div>
                 </div>
 
                 <!--            ============ОПИСАНИЕ==================  -->
-                <div class="box">
+                <div class="box background-black">
                     <div class="container">
-                        <div class="subtitle has-text-grey-dark has-text-weight-semibold is-6 is-left">
+                        <div class="subtitle has-text-white has-text-weight-semibold is-6 is-left">
                             Опубликованно {{ post.date|timesince }} назад
                         </div>
-                        <div class="subtitle has-text-grey-dark has-text-weight-semibold is-6 has-text-centered">
+                        <div class="subtitle has-text-white has-text-weight-semibold is-6 has-text-centered">
                             {{post.description}}
                         </div>
                     </div>
@@ -192,12 +192,12 @@
             <!--            =================================   РЕКОМЕНДАЦИИ ===========    -->
 
             <div class="column">
-                <div class="box">
-                    <div class="title is-size-5 has-text-centered">
+                <div class="box background-black">
+                    <div class="title is-size-5 has-text-centered has-text-white">
                         В очереди на просмотр
                     </div>
                     {% for post_r in posts %}
-                    <div class="card mt-3">
+                    <div class="card mt-3 background-black">
                         <div class="cart-content">
                             <a href="{% url 'video_hosting:video' post_r.video.pk %}?viewing=True">
                                 <div class="media">
@@ -210,13 +210,13 @@
                                                 </div>
                                             </div>
                                             <div class="column">
-                                                <div class="title has-text-black is-5 mt-2">
+                                                <div class="title has-text-white is-5 mt-2">
                                                     {{ post_r.video.name }}
                                                 </div>
-                                                <div class="has-text-weight-semibold is-6 has-background-danger-dark has-text-danger-light has-text-centered">
+                                                <div class="has-text-weight-semibold is-6 color-orange-icon has-text-centered">
                                                     {{ post_r.video.channel }}
                                                 </div>
-                                                <div class="has-text-grey-dark has-text-weight-semibold is-6">
+                                                <div class="has-text-white has-text-weight-semibold is-6">
                                                     {{ post_r.video.date|timesince }}
                                                 </div>
                                             </div>
@@ -235,9 +235,9 @@
         </div>
         <!--        =========================       КОММЕНТАРИИ ==========================   -->
 
-        <div class="box">
+        <div class="box background-black">
             <!--        =========================      ОСТАВИТЬ КОММЕНТ =======================-->
-            <button class="button is-medium" onclick="addCommentModal()">
+            <button class="button is-medium is-ghost has-text-white" onclick="addCommentModal()">
                 Оставить комментарий
             </button>
 
@@ -250,7 +250,7 @@
                             {% csrf_token %}
                             {{ form_comment }}
                             <div class="has-text-centered my-3">
-                                <button class="button is-success">Оставить комментарий</button>
+                                <button class="button color-orange">Оставить комментарий</button>
                             </div>
                         </form>
                         <button class="button" onclick="removeCommentModal()">Отмена</button>
@@ -263,15 +263,15 @@
             <!--            =======================================================================-->
             <!--            ======================================== ОСНОВНЫЕ КОММЕНТАРИИ =============================-->
             {% if comments %}
-            <div class="box mt-6 cart_comment">
+            <div class="box mt-6 cart_comment background-black">
                 {% for comment in comments %}
                 <div class="cart">
                     <div class="columns">
                         <div class="column has-text-left">
-                            <span class="subtitle has-text-grey-dark has-text-weight-semibold is-6 mr-6">
+                            <span class="subtitle has-text-white has-text-weight-semibold is-6 mr-6">
                                 {{ comment.user }}
                             </span>
-                            <span class="subtitle has-text-grey-dark has-text-weight-semibold is-6">
+                            <span class="subtitle has-text-white has-text-weight-semibold is-6">
                                 {{ comment.date|timesince }} назад
                             </span>
                         </div>
@@ -281,10 +281,10 @@
                                     <form method="post"
                                           action="{% url 'video_hosting:com_like' comment.pk %}">
                                         {% csrf_token %}
-                                        <button class="button is-light is-large {% if user in comment.com_likes.all %} is-success {% endif %} is-size-6"
+                                        <button class="button is-ghost has-text-white is-large {% if user in comment.com_likes.all %} has-text-success {% endif %} is-size-6"
                                                 type="submit">
                                             <ion-icon name="heart-outline" class="is-small"></ion-icon>
-                                            <span class="subtitle has-text-grey-dark has-text-weight-semibold is-5 ml-3">
+                                            <span class="subtitle has-text-white  has-text-weight-semibold is-5 ml-3">
                                                 {{ comment.com_likes_counter }}
                                             </span>
                                         </button>
@@ -294,7 +294,7 @@
                                     <form method="post"
                                           action="{% url 'video_hosting:com_dislike' comment.pk %}">
                                         {% csrf_token %}
-                                        <button class="button is-light is-large {% if user in comment.com_dislikes.all %} is-danger {% endif %} is-size-6"
+                                        <button class="button is-ghost has-text-white is-large {% if user in comment.com_dislikes.all %} has-text-danger {% endif %} is-size-6"
                                                 type="submit">
                                             <ion-icon name="heart-dislike-outline"
                                                       class="is-small"></ion-icon>
@@ -303,13 +303,13 @@
                                 </div>
                                 <div class="column">
                                     <div class="dropdown is-hoverable">
-                                        <div class="dropdown-trigger">
+                                        <div class="dropdown-trigger has-text-white">
                                             <ion-icon name="ellipsis-horizontal-outline" class="is-size-5"></ion-icon>
                                         </div>
                                         <div class="dropdown-menu" role="menu">
-                                            <div class="dropdown-content">
+                                            <div class="dropdown-content background-black ">
                                                 <a href="{% url 'video_hosting:complaint_form' %}?self=comment&pk={{comment.pk}}&video_page={{post.pk}}"
-                                                   class="navbar-item button is-ghost has-text-grey-dark">
+                                                   class="navbar-item button is-ghost has-text-white">
                                                     <ion-icon name="flag-outline"></ion-icon>
                                                     <span class="ml-3">Пожаловаться</span>
                                                 </a>
@@ -320,7 +320,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="subtitle has-text-grey-dark has-text-weight-semibold is-5 m-3 has-text-centered">
+                    <div class="subtitle has-text-white has-text-weight-semibold is-5 m-3 has-text-centered">
                         {{comment.body}}
                     </div>
 
@@ -331,7 +331,7 @@
                             {% csrf_token %}
                             {{ parent_form }}
                             <div class="has-text-centered my-3">
-                                <button type="submit" class="button is-success" data-pk="{{comment.pk}}"
+                                <button type="submit" class="button color-orange" data-pk="{{comment.pk}}"
                                         onclick="addComment(this.dataset.pk)">
                                     Оставить комментарий
                                 </button>
@@ -347,13 +347,13 @@
                 <div class="columns is-vcentered">
                     <div class="column has-text-left">
                         <button data-pk="{{comment.pk}}" onclick="toggleButParent(this.dataset.pk)"
-                                class="button is-ghost subtitle has-text-grey-dark has-text-weight-semibold is-6">
+                                class="button is-ghost subtitle has-text-white has-text-weight-semibold is-6">
                             Прочитать ответы
                             <ion-icon name="chevron-down-outline" class="ml-3"></ion-icon>
                         </button>
                     </div>
                     <div class="column has-text-right">
-                        <button class="button is-light is-large is-size-6" data-pk="{{comment.pk}}"
+                        <button class="button is-ghost has-text-white is-large is-size-6" data-pk="{{comment.pk}}"
                                 onclick="addComment(this.dataset.pk)">
                             <ion-icon name="chatbubbles-outline"></ion-icon>
                         </button>
@@ -365,7 +365,7 @@
                     {% if parent.parent == comment %}
                     <div class="columns">
                         <div class="column">
-                            <div class="subtitle has-text-grey-dark has-text-weight-semibold is-6">
+                            <div class="subtitle has-text-white has-text-weight-semibold is-6">
                                 <ion-icon name="return-down-forward-outline" class="mr-3"></ion-icon>
                                 {{ parent.user }}
                                 <span class="ml-6">
@@ -375,13 +375,13 @@
                         </div>
                         <div class="column has-text-right is-one-fifth">
                             <div class="dropdown is-hoverable">
-                                <div class="dropdown-trigger">
+                                <div class="dropdown-trigger has-text-white">
                                     <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
                                 </div>
                                 <div class="dropdown-menu" role="menu">
-                                    <div class="dropdown-content">
+                                    <div class="dropdown-content background-black ">
                                         <a href="{% url 'video_hosting:complaint_form' %}?self=parent&pk={{parent.pk}}&video_page={{post.pk}}"
-                                           class="navbar-item button is-ghost has-text-grey-dark">
+                                           class="navbar-item button is-ghost has-text-white">
                                             <ion-icon name="flag-outline"></ion-icon>
                                             <span class="ml-3">Пожаловаться</span>
                                         </a>
@@ -392,7 +392,7 @@
                     </div>
                     <div class="columns">
                         <div class="column">
-                            <div class="subtitle has-text-grey-dark has-text-weight-semibold is-5 m-3 has-text-centered">
+                            <div class="subtitle has-text-white has-text-weight-semibold is-5 m-3 has-text-centered">
                                 <span class="has-text-info">
                                     {% if parent.self %}
                                     {{parent.self.user}}
@@ -404,7 +404,7 @@
                             </div>
                         </div>
                         <div class="column has-text-right is-one-fifth">
-                            <button class="button is-ghost is-light" data-pk="{{parent.pk}}"
+                            <button class="button is-ghost has-text-white" data-pk="{{parent.pk}}"
                                     onclick="toggleParentForm(this.dataset.pk)">
                                 <ion-icon name="chatbubbles-outline"></ion-icon>
                             </button>
@@ -419,7 +419,7 @@
                             {% csrf_token %}
                             {{ parent_form }}
                             <div class="has-text-centered my-3">
-                                <button type="submit" class="button is-success" data-pk="{{parent.pk}}"
+                                <button type="submit" class="button color-orange" data-pk="{{parent.pk}}"
                                         onclick="toggleParentForm(this.dataset.pk)">
                                     Оставить комментарий
                                 </button>
@@ -435,7 +435,7 @@
                 </div>
 
                 <!--                ==================================================================================    -->
-                <hr class="dropdown-divider">
+                <hr class="dropdown-divider color-orange">
                 {% endfor %}
             </div>
             {% endif %}

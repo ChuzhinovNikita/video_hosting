@@ -67,6 +67,7 @@
 }
 
 body {
+    background: #2f2f2fe8;
     background-size: cover;
     background-image: url("../uploads/Group 1.png");
     background-attachment: fixed;
@@ -87,6 +88,11 @@ body {
     line-height: 62px;
     letter-spacing: -0.01em;
     text-align: center;
+    color: white;
+}
+.logo-o{
+    color: #e49e18;
+    margin: -15px;
 }
 
 .has-mycolor {
@@ -94,4 +100,28 @@ body {
     color: #ffffff;
     border-color: #e49e18;
 
+}
+
+.navbar {
+    background: #2f2f2f;
+}
+
+.white-color{
+    color: white;
+}
+
+.background-black{
+    background: #2f2f2f;
+}
+
+.color-orange{
+    background: #e49e18;
+}
+
+.color-orange-icon{
+    color: #e49e18;
+}
+
+.left-nav{
+    border-radius: 0;
 }

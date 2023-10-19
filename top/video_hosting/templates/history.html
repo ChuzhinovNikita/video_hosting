@@ -9,7 +9,7 @@
             <a href="{% url 'video_hosting:video' post.video.pk %}">
                 <div class="media">
                     <div class="media-content">
-                        <div class="columns is-centered">
+                        <div class="columns is-vcentered">
                             <div class="column is-one-quarter">
                                 <div class="container">
                                     <img src="{{post.video.preview.url}}" alt=""
@@ -20,7 +20,7 @@
                                 <div class="title has-text-black is-4 mt-2 has-text-centered">
                                     {{ post.video.name }}
                                 </div>
-                                <div class="has-text-centered has-text-weight-semibold is-6 has-background-danger-dark has-text-danger-light has-text-centered">
+                                <div class="has-text-centered has-text-weight-semibold is-6 color-orange-icon  has-text-centered">
                                     {{ post.video.channel }}
                                 </div>
                                 <div class="has-text-grey-dark has-text-weight-semibold is-6 has-text-centered">

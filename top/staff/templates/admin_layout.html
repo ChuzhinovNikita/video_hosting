@@ -16,12 +16,14 @@
 <body>
 
 {% if user.is_staff %}
-<nav class="navbar ml-3 mr-3" role="navigation" aria-label="main navigation">
+<nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="{% url 'video_hosting:home' %}">
             <div class="logo"></div>
             <div class="logo_name">
-                Movir
+                M
+                <span class="logo-o">o</span>
+                vir
             </div>
         </a>
 
@@ -34,7 +36,7 @@
 
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-            <a href="{% url 'video_hosting:home' %}" class="navbar-item">
+            <a href="{% url 'video_hosting:home' %}" class="navbar-item white-color">
                 Главная
             </a>
         </div>
@@ -43,12 +45,11 @@
             <div class="navbar-item">
                 {% if user.is_authenticated %}
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <div class="navbar-link subtitle">
+                    <div class="navbar-link subtitle white-color">
                         {{user}}
                     </div>
-                    <div class="navbar-dropdown">
-                        <hr class="dropdown-divider">
-                        <a class="navbar-item" href="{% url 'users:log_out' %}">
+                    <div class="navbar-dropdown background-black">
+                        <a class="navbar-item white-color" href="{% url 'users:log_out' %}">
                             Выйти
                         </a>
                     </div>
